@@ -43,4 +43,4 @@ FILENAME="backup-`date +%Y%m%d`.tar.gz"
 tar -zcvf $FILENAME $ROOT/
 
 # Upload to AWS
-/usr/local/bin/aws s3 cp --storage-class "$AWS_S3_STORAGE_CLASS" $FILENAME s3://$AWS_S3_BUCKET
+/usr/bin/aws s3 cp --storage-class "$AWS_S3_STORAGE_CLASS" $FILENAME s3://$AWS_S3_BUCKET

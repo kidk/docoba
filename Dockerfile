@@ -13,4 +13,4 @@ RUN apk add --update docker python py-pip && \
 
 ADD script.sh /
 
-CMD ['script.sh']
+CMD ["sh", "/script.sh"]

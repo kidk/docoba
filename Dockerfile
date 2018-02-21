@@ -11,6 +11,7 @@ RUN apk add --update docker python py-pip && \
     pip install awscli && \
     rm -rf /var/cache/apk/*
 
-ADD script.sh /
+ADD entrypoint.sh /
+ADD types/ /types/
 
-CMD ["sh", "/script.sh"]
+CMD ["sh", "/entrypoint.sh"]

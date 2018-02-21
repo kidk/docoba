@@ -1,6 +1,4 @@
 
-ROOT=./backup
-mkdir $ROOT
 
 # Create a list of all containers we need to backup
 # This is done by looking for containers with label MYSQL_BACKUP=true
@@ -11,7 +9,7 @@ for id in $containers; do
     # Get container name
     name=$(docker ps --filter "id=$id" --format "{{.Names}}")
     echo "Preparing backup for $name"
-    mkdir $ROOT/$name/
+    mkdir $ROOT/$name/mysql/
 
     # Get MySQL credentials
     username=root
@@ -33,14 +31,7 @@ for id in $containers; do
     for database in $databases; do
         if [[ "$database" != "information_schema" ]] && [[ "$database" != "performance_schema" ]] && [[ "$database" != "mysql" ]] && [[ "$database" != _* ]] ; then
             echo "Dumping database: $database"
-            docker exec $id mysqldump -uroot -p$password --databases $database > $ROOT/$name/`date +%Y%m%d`.$database.sql
+            docker exec $id mysqldump -uroot -p$password --databases $database > $ROOT/$name/mysql/`date +%Y%m%d`.$database.sql
         fi
     done
 done
-
-# Zip
-FILENAME="backup-`date +%Y%m%d`.tar.gz"
-tar -zcvf $FILENAME $ROOT/
-
-# Upload to AWS
-/usr/bin/aws s3 cp --storage-class "$AWS_S3_STORAGE_CLASS" $FILENAME s3://$AWS_S3_BUCKET

@@ -3,8 +3,8 @@
 set -e
 
 # Prepare root backup
-ROOT=./backup
-mkdir $ROOT
+export ROOT=backup
+mkdir -p $ROOT
 
 # MySQL
 echo "---------------------"

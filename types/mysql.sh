@@ -9,7 +9,7 @@ for id in $containers; do
     # Get container name
     name=$(docker ps --filter "id=$id" --format "{{.Names}}")
     echo "Preparing backup for $name"
-    mkdir $ROOT/$name/mysql/
+    mkdir -p $ROOT/$name/mysql/
 
     # Get MySQL credentials
     username=root

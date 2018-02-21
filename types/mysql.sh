@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 
 # Create a list of all containers we need to backup
 # This is done by looking for containers with label MYSQL_BACKUP=true

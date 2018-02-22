@@ -14,12 +14,24 @@ for id in $containers; do
     # Get volumes to backup
     volumes=$(docker inspect --format "{{ index .Config.Labels \"VOLUME_BACKUP\"}}" $name | tr "," "\n")
 
+    # Retrieve project name (composer support)
+    project=$(docker inspect --format "{{ index .Config.Labels \"com.docker.compose.project\"}}" $name | tr -d '\n')
+
     # Backup volumes
     for volume in $volumes; do
+        # Prepare src, dest
         dest=$ROOT/$name/volumes/$volume
+        if [ -n "$project" ]; then
+            src="$project_$volume"
+        else
+            src="$volume"
+        fi
+
+        # Output and prepare
         echo "Backup of $volume to $dest"
         mkdir -p $dest
 
-        docker run --rm -v $volume:/src:ro -v $PWD/$dest:/dst busybox cp -av /src /dst
+        # Perform copy in container
+        docker run --rm -v $src:/src:ro -v $PWD/$dest:/dst busybox cp -av /src /dst
     done
 done

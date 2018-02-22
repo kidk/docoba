@@ -22,13 +22,13 @@ for id in $containers; do
         # Prepare src, dest
         dest=$ROOT/$name/volumes/$volume
         if [ -n "$project" ]; then
-            src="$project_$volume"
+            src="${project}_${volume}"
         else
             src="$volume"
         fi
 
         # Output and prepare
-        echo "Backup of $volume to $dest"
+        echo "Backup of $src to $dest"
         mkdir -p $dest
 
         # Perform copy in container

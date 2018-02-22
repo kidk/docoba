@@ -16,11 +16,10 @@ for id in $containers; do
 
     # Backup volumes
     for volume in $volumes; do
-        source=$(docker volume ls -f name=$volume --format "{{.Mountpoint}} {{.Name}}" | grep "$volume$" | awk '{print $1}')
+        dest=$ROOT/$name/volumes/$volume
+        echo "Backup of $volume to $dest"
+        mkdir -p $dest
 
-        echo "Backup of $source to $dest"
-        mkdir -p $ROOT/$name/volumes/$volume
-
-        docker run --rm -v $volume:/src:ro -v $PWD/$ROOT/$name/volumes/$volume:/dst busybox cp -av /src /dst
+        docker run --rm -v $volume:/src:ro -v $PWD/$dest:/dst busybox cp -av /src /dst
     done
 done

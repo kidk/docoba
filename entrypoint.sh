@@ -29,4 +29,6 @@ tar -zcvf $FILENAME $ROOT/
 echo "---------------------"
 echo "      Upload         "
 echo "---------------------"
-/usr/bin/aws s3 cp --storage-class "$AWS_S3_STORAGE_CLASS" $FILENAME s3://$AWS_S3_BUCKET
+if [ "$DEBUG" = false ] ; then
+    /usr/bin/aws s3 cp --storage-class "$AWS_S3_STORAGE_CLASS" $FILENAME s3://$AWS_S3_BUCKET
+fi

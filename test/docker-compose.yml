@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress
+    restart: always
+    volumes:
+    - wordpress_ps:/var/www/html/wp-content
+    labels:
+      VOLUME_BACKUP: "wordpress_ps"
+    environment:
+      WORDPRESS_DB_HOST: "mysql"
+      WORDPRESS_DB_USER: "username"
+      WORDPRESS_DB_PASSWORD: "password"
+      WORDPRESS_DB_NAME: "database"
+
+  mysql:
+    image: mysql:5
+    restart: always
+    volumes:
+      - database_ps:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "super_secret_no_share_plz"
+      MYSQL_DATABASE: database
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+    labels:
+      MYSQL_BACKUP: "true"
+
+volumes:
+  wordpress_ps:
+  database_ps:

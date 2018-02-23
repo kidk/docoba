@@ -31,7 +31,27 @@ for id in $containers; do
         echo "Backup of $src to $dest"
         mkdir -p $dest
 
-        # Perform copy in container
-        docker run --rm -v $src:/src:ro -v $PWD/$dest:/dst busybox cp -av /src /dst
+        # Generate random name to use as container name
+        UUID=backup-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+
+        # Perform backup in container
+        echo "# Creating backup file"
+        docker run --name=$UUID -v $src:/src:ro busybox tar -zcvf /backup.tar.gz /src
+
+        # Find current container id
+        CPARENT=$(cat /etc/hostname)
+
+        # Copy backup from child to host /tmp
+        echo "Moving backup from child container to host"
+        docker cp $UUID:/backup.tar.gz /tmp/$UUID.tar.gz
+
+        # Copy back from host /tmp to parent
+        echo "Moving host to parent container"
+        docker cp /tmp/$UUID.tar.gz $CPARENT:$dest
+
+        # Clean up child and backup in /tmp
+        echo "Cleaning up"
+        rm /tmp/$UUID.tar.gz
+        docker rm $UUID
     done
 done

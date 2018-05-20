@@ -22,7 +22,7 @@ AWS_DEFAULT_REGION=eu-west-1
 AWS_S3_BUCKET=name-of-bucket
 
 # Optional host filesystem backup
-FILESYSTEM_BACKUP="/mnt/files/:/home"
+FILESYSTEM_BACKUP=/mnt/files/:/home
 ```
 
 ## Configuration

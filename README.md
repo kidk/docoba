@@ -9,7 +9,7 @@ At the moment it's possible to backup Docker volumes and MySQL databases, but ot
 ## How to use
 
 ```
-docker run -v /var/run/docker.sock:/var/run/docker.sock --env-file .backup-env kidk/docoba:latest
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v /:/host/:ro --env-file .backup-env kidk/docoba:latest
 ```
 
 `.backup-env` contains all the environment variables needed for accessing S3.

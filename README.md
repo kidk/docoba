@@ -20,19 +20,28 @@ AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_DEFAULT_REGION=eu-west-1
 AWS_S3_BUCKET=name-of-bucket
+
+# Optional host filesystem backup
+FILESYSTEM_BACKUP="/mnt/files/:/home"
 ```
 
 ## Configuration
 
+### Host
+
+To flag part of the host filesystem for backup, use the environment variable FILESYSTEM_BACKUP in `.backup-env`. The value is a colon delimited list of directories you want to backup. Use absolute path, so `/var/log/` and not `../var/log`.
+
+### Containers
+
 To flag a container for backup, use the following labels.
 
-### `VOLUME_BACKUP="volume1,volume2"`
+#### `VOLUME_BACKUP="volume1,volume2"`
 
 The value is a comma delimited list of volumes you want to backup. The label keeps into account the project used (through docker-compose).
 
 It is technically possible, not advised, to backup volumes not linked to the container with the label.
 
-### `MYSQL_BACKUP=true`
+#### `MYSQL_BACKUP=true`
 
 Docoba will try to backup the MySQL container using the available credentials.
 

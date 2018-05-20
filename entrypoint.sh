@@ -18,6 +18,12 @@ echo "      Volumes        "
 echo "---------------------"
 ./types/volumes.sh
 
+# Filesystem
+echo "---------------------"
+echo "      Filesystem     "
+echo "---------------------"
+./types/filesystem.sh
+
 # Zip
 echo "---------------------"
 echo "      Compress       "

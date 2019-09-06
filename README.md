@@ -39,7 +39,7 @@ To flag a container for backup, use the following labels.
 
 The value is a comma delimited list of volumes you want to backup. The label keeps into account the project used (through docker-compose).
 
-It is technically possible, not advised, to backup volumes not linked to the container with the label.
+It is technically possible to backup volumes not linked to the container with the label. This has limitations and should be avoided when possible. 
 
 #### `MYSQL_BACKUP=true`
 
